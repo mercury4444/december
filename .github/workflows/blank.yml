@@ -22,12 +22,12 @@ jobs:
         uses: appleboy/telegram-action@master
         with:
           message: "готово"
-          to: 
-          token: 
+          to: 1066989362
+          token: 6644016293:AAFdybhpUzJE_W46vVHc1FW0TeTWGX6nXzs
       - name: send default message
         if: failure()
         uses: appleboy/telegram-action@master
         with:
           message: "с ошибкой"
-          to: 
-          token: 
+          to: 1066989362
+          token: 6644016293:AAFdybhpUzJE_W46vVHc1FW0TeTWGX6nXzs
