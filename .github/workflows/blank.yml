@@ -1,0 +1,33 @@
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3 
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - run: docker build -t ghcr.io/mercury4444/december:1.0 .
+      - run: docker push ghcr.io/mercury4444/december:1.0
+      - run: ssh -o "StrictHostKeyChecking no" 'mercury4444-december-fwozchsb90g#AYcapdxnaNa8X7s9vybC1HJcYFBxDDf.@mercury4444-december-fwozchsb90g.ssh.ws-eu106.gitpod.io' 'cd /workspace/december/ && docker compose pull && docker compose up -d'
+      - name: send default message
+        if: success()
+        uses: appleboy/telegram-action@master
+        with:
+          message: "готово"
+          to: 
+          token: 
+      - name: send default message
+        if: failure()
+        uses: appleboy/telegram-action@master
+        with:
+          message: "с ошибкой"
+          to: 
+          token: 
